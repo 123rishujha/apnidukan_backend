@@ -1,4 +1,5 @@
 const express = require("express");
+const jwt = require("jsonwebtoken");
 
 //import/requiring files below
 const { ProductModel } = require("../models/product.model"); // Product model/template
@@ -58,8 +59,15 @@ productRoute.post("/add", async (req, res) => {
 
 productRoute.get("/", async (req, res) => {
     console.log("products");
+    console.log("called");
+    
+    const query = req.query
+    console.log("query",query)
+    // const {sort} = req.query
   try {
-    const products = await ProductModel.find();
+    
+    // const sortOption =    sort ? { price: sort === 'asc' ? 1 : -1 } : {};
+    const products = await ProductModel.find(query);
     res.status(200).send(products);
   } catch (error) {
     res.status(400).send({msg: "Something went wrong! "})
